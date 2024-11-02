@@ -1,2 +1,0 @@
-# hack-njit
-hacknjit project
