@@ -3,14 +3,14 @@ import { Bar, Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
 import './App.css';
 import { fetchPurchases } from './api';
-import useDebounce from './useDebounce'; // Importing custom debounce hook
+import useDebounce from './useDebounce';
 
 const App = () => {
   const [productData, setProductData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
   const [sortOrder, setSortOrder] = useState('asc');
-  const debouncedDateRange = useDebounce(dateRange, 500); // Debouncing date range to reduce re-renders
+  const debouncedDateRange = useDebounce(dateRange, 500);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +20,6 @@ const App = () => {
         setFilteredData(data);
       } catch (error) {
         console.error('Error fetching data:', error);
-        // Ideally show this to the user through UI, e.g., error state
       }
     };
 
@@ -34,7 +33,6 @@ const App = () => {
   const filterAndSortData = () => {
     let filtered = productData;
 
-    // Filter by date range
     if (debouncedDateRange.start && debouncedDateRange.end) {
       filtered = filtered.filter(item => {
         const date = new Date(item.date);
@@ -42,7 +40,6 @@ const App = () => {
       });
     }
 
-    // Sort by purchases
     filtered.sort((a, b) => {
       return sortOrder === 'asc' ? a.purchases - b.purchases : b.purchases - a.purchases;
     });
